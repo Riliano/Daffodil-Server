@@ -11,18 +11,18 @@ void DaffodilServer::MainLoop()
 	Module *modules[] = {&info, &info2};
 	size_t modulesSize = 2;
 
-
 	while( serverIsRunning_ )
 	{
 		for( unsigned int i=0;i<modulesSize;i++ )
 			if( modules[i]->TimeToCall() <= 0 )
 				modules[i]->Action();
 
-		long long downtime = modules[0]->TimeToCall();
+		double downtime = modules[0]->TimeToCall();
 		for( unsigned int i=1;i<modulesSize;i++ )
 			downtime = std::min( downtime, modules[i]->TimeToCall() );
 
-		SDL_Delay( downtime );
+		// convert from seconds to miliseconds
+		SDL_Delay( downtime*1000 );
 	}
 }
 
