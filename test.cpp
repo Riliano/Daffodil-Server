@@ -15,7 +15,7 @@ class Info3 : public Module
 	}
 }info3;
 
-extern "C" Module* create_t()
+extern "C" Module* import()
 {
 	return &info3;
 }

@@ -36,15 +36,15 @@ void ModuleManager::AddExternal( const char * filename )
 		return;
 	}
 
-	create_t *newModule = (create_t*) dlsym( externalModule, "import" );
+	import *importModule = (import*) dlsym( externalModule, "import" );
 	dlsym_error = dlerror();
 	if( dlsym_error )
 	{
 		std::cerr << "Cannot load module " << filename << " : " << dlsym_error << "/n";
 		return;
 	}
-	Module *module = newModule();
 
+	Module *module = importModule();
 	modules.push_back( module );
 }
 void ModuleManager::AddLocal( Module *module )

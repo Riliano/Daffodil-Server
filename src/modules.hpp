@@ -19,16 +19,22 @@ class Module
 	void Action();
 };
 
-typedef Module* create_t();
+typedef Module* import();
 
 class ModuleManager
 {
-	public:
+	private:
 	std::vector< Module* > modules;
+	public:
 	void AddExternal( const char * );
 	void AddLocal( Module* );
 	size_t Size();
 	double TimeToCall( size_t );
 	//void Remove();
 	void Execute( size_t );
+
+	~ModuleManager()
+	{
+		modules.clear();
+	}
 };
