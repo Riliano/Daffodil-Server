@@ -39,8 +39,7 @@ void DaffodilServer::MainLoop()
 	ModuleManager modules;
 	modules.AddLocal( &info );
 	modules.AddLocal( &info2 );
-//	Module *modules[] = {&info, &info2};
-//	size_t modulesSize = 2;
+	modules.AddExternal( "./test.so" );
 
 	while( serverIsRunning_ )
 	{

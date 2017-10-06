@@ -12,18 +12,19 @@ class Module
 	private:
 	std::chrono::steady_clock::time_point lastCall = std::chrono::steady_clock::now();
 	protected:
-	double interval;
 	public:
+	double interval = -1;
 	double TimeToCall();
 	virtual void Func() = 0;
 	void Action();
 };
 
+typedef Module* create_t();
+
 class ModuleManager
 {
-	private:
-	std::vector< Module* > modules;
 	public:
+	std::vector< Module* > modules;
 	void AddExternal( const char * );
 	void AddLocal( Module* );
 	size_t Size();

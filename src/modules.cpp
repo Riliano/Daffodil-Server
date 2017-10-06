@@ -29,7 +29,21 @@ void ModuleManager::Execute( size_t m )
 void ModuleManager::AddExternal( const char * filename )
 {
 	void *externalModule = dlopen( filename, RTLD_NOW );
-	Module *module = (Module*) dlsym( externalModule, "import" );
+	const char *dlsym_error = dlerror();
+	if( dlsym_error )
+	{
+		std::cerr << "Cannot load module " << filename << " : " << dlsym_error << "/n";
+		return;
+	}
+
+	create_t *newModule = (create_t*) dlsym( externalModule, "import" );
+	dlsym_error = dlerror();
+	if( dlsym_error )
+	{
+		std::cerr << "Cannot load module " << filename << " : " << dlsym_error << "/n";
+		return;
+	}
+	Module *module = newModule();
 
 	modules.push_back( module );
 }
