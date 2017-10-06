@@ -19,4 +19,6 @@ target_link_libraries(daffodil-server ${SDL_LIBRARIES})
 find_package (Threads)
 target_link_libraries (daffodil-server ${CMAKE_THREAD_LIBS_INIT})
 
+target_link_libraries(daffodil-server dl)
+
 install(TARGETS daffodil-server DESTINATION bin)

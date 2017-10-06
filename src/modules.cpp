@@ -13,3 +13,27 @@ double Module::TimeToCall()
 
 	return interval - timeSpan.count();
 }
+
+size_t ModuleManager::Size()
+{
+	return modules.size();
+}
+double ModuleManager::TimeToCall( size_t m )
+{
+	return modules[m]->TimeToCall();
+}
+void ModuleManager::Execute( size_t m )
+{
+	modules[m]->Action();
+}
+void ModuleManager::AddExternal( const char * filename )
+{
+	void *externalModule = dlopen( filename, RTLD_NOW );
+	Module *module = (Module*) dlsym( externalModule, "import" );
+
+	modules.push_back( module );
+}
+void ModuleManager::AddLocal( Module *module )
+{
+	modules.push_back( module );
+}

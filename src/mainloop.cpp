@@ -36,19 +36,21 @@ class Info2: public Module
 
 void DaffodilServer::MainLoop()
 {
-
-	Module *modules[] = {&info, &info2};
-	size_t modulesSize = 2;
+	ModuleManager modules;
+	modules.AddLocal( &info );
+	modules.AddLocal( &info2 );
+//	Module *modules[] = {&info, &info2};
+//	size_t modulesSize = 2;
 
 	while( serverIsRunning_ )
 	{
-		for( unsigned int i=0;i<modulesSize;i++ )
-			if( modules[i]->TimeToCall() <= 0 )
-				modules[i]->Action();
+		for( unsigned int i=0;i<modules.Size();i++ )
+			if( modules.TimeToCall(i) <= 0 )
+				modules.Execute(i);
 
-		double downtime = modules[0]->TimeToCall();
-		for( unsigned int i=1;i<modulesSize;i++ )
-			downtime = std::min( downtime, modules[i]->TimeToCall() );
+		double downtime = modules.TimeToCall(0);
+		for( unsigned int i=1;i<modules.Size();i++ )
+			downtime = std::min( downtime, modules.TimeToCall(i) );
 
 		// convert from seconds to miliseconds
 		SDL_Delay( downtime*1000 );
