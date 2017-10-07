@@ -22,14 +22,12 @@ class Module
 };
 
 typedef Module* Import();
-typedef Module* Destroy();
 
 class ExternalModule
 {
 	public:
 	Module* module;
 	Import* constructor;
-	Destroy* destructor;
 	void* externalClass;
 
 	void Load( const char * );

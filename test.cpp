@@ -13,14 +13,9 @@ class Info3 : public Module
 	{
 		interval = 2;
 	}
-}info3;
+};
 
 extern "C" Module* import()
 {
-	return &info3;
-}
-
-extern "C" void destroy()
-{
-//	delete &info3;
+	return new Info3;
 }

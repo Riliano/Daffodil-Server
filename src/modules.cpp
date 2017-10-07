@@ -32,20 +32,11 @@ void ExternalModule::Load( const char *filename )
 		std::cerr << "Cannot find constructor in " << filename << " : " << dlsym_error << "/n";
 		return;
 	}
-
-	destructor = (Destroy*) dlsym( externalClass, "destroy" );
-	dlsym_error = dlerror();
-	if( dlsym_error )
-	{
-		std::cerr << "Cannot find destructor in " << filename << " : " << dlsym_error << "/n";
-		return;
-	}
-
 	module = constructor();
 }
 void ExternalModule::Unload()
 {
-//	destructor();
+	delete module;
 	dlclose( externalClass );
 }
 
