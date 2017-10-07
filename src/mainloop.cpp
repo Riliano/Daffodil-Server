@@ -5,40 +5,9 @@
 #include "server.hpp"
 #include "modules.hpp"
 
-class Info: public Module
-{
-	public:
-
-	virtual void Func()
-	{
-		std::cout<<"Hi\n";
-	}
-	Info()
-	{
-		interval = 1;
-	}
-}info;
-
-class Info2: public Module
-{
-	public:
-
-	virtual void Func()
-	{
-		std::cout<<"Hi;)\n";
-	}
-	Info2()
-	{
-		interval = 0.3;
-	}
-} info2;
-
-
 void DaffodilServer::MainLoop()
 {
 	ModuleManager modules;
-	modules.AddLocal( &info );
-	modules.AddLocal( &info2 );
 	modules.AddExternal( "./test.so" );
 
 	while( serverIsRunning_ )
