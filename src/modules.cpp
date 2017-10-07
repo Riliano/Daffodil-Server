@@ -13,22 +13,11 @@ double Module::TimeToCall()
 
 	return interval - timeSpan.count();
 }
+Module::~Module(){}
 
-size_t ModuleManager::Size()
+void ExternalModule::Load( const char *filename )
 {
-	return modules.size();
-}
-double ModuleManager::TimeToCall( size_t m )
-{
-	return modules[m]->TimeToCall();
-}
-void ModuleManager::Execute( size_t m )
-{
-	modules[m]->Action();
-}
-void ModuleManager::AddExternal( const char * filename )
-{
-	void *externalModule = dlopen( filename, RTLD_NOW );
+	externalClass = dlopen( filename, RTLD_NOW );
 	const char *dlsym_error = dlerror();
 	if( dlsym_error )
 	{
@@ -36,18 +25,56 @@ void ModuleManager::AddExternal( const char * filename )
 		return;
 	}
 
-	import *importModule = (import*) dlsym( externalModule, "import" );
+	constructor = (Import*) dlsym( externalClass, "import" );
 	dlsym_error = dlerror();
 	if( dlsym_error )
 	{
-		std::cerr << "Cannot load module " << filename << " : " << dlsym_error << "/n";
+		std::cerr << "Cannot find constructor in " << filename << " : " << dlsym_error << "/n";
 		return;
 	}
 
-	Module *module = importModule();
-	modules.push_back( module );
+	destructor = (Destroy*) dlsym( externalClass, "destroy" );
+	dlsym_error = dlerror();
+	if( dlsym_error )
+	{
+		std::cerr << "Cannot find destructor in " << filename << " : " << dlsym_error << "/n";
+		return;
+	}
+
+	module = constructor();
+}
+void ExternalModule::Unload()
+{
+//	destructor();
+	dlclose( externalClass );
+}
+
+size_t ModuleManager::Size()
+{
+	return modules.size();
+}
+double ModuleManager::TimeToCall( size_t m )
+{
+	return modules[m]->module->TimeToCall();
+}
+void ModuleManager::Execute( size_t m )
+{
+	modules[m]->module->Action();
+}
+void ModuleManager::AddExternal( const char *filename )
+{
+	ExternalModule *newModule = new ExternalModule;
+	newModule->Load( filename );
+	modules.push_back( newModule );
+}
+void ModuleManager::Remove( size_t m )
+{
+	modules[m]->Unload();
+	for( size_t i=m;i<modules.size()-1;i++ )
+		modules[i] = modules[i+1];
+	modules.pop_back();
 }
 void ModuleManager::AddLocal( Module *module )
 {
-	modules.push_back( module );
+//	modules.push_back( module );
 }

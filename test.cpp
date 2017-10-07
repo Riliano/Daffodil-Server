@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "modules.hpp"
+#include "src/modules.hpp"
 
 class Info3 : public Module
 {
@@ -18,4 +18,9 @@ class Info3 : public Module
 extern "C" Module* import()
 {
 	return &info3;
+}
+
+extern "C" void destroy()
+{
+	delete &info3;
 }
