@@ -23,7 +23,6 @@ void DaffodilServer::MainLoop()
 		// convert from seconds to miliseconds
 		SDL_Delay( downtime*1000 );
 	}
-	modules.Remove(0);
 }
 
 void DaffodilServer::Start()

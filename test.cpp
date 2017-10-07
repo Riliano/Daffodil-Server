@@ -22,5 +22,5 @@ extern "C" Module* import()
 
 extern "C" void destroy()
 {
-	delete &info3;
+//	delete &info3;
 }

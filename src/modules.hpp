@@ -48,19 +48,15 @@ class ModuleManager
 	void Remove( size_t );
 	void Execute( size_t );
 
-	/*
 	~ModuleManager()
 	{
 		if( modules.size() > 0 )
 		{
-			for( size_t i=modules.size()-1;i>=0;i--)
+			for( size_t i=0;i<modules.size();i++ )
 			{
-				std::cout<<"Hi "<<i<<" "<<modules.size()<<std::endl;
 				modules[i]->Unload();
-				modules.pop_back();
 			}
 			modules.clear();
 		}
 	}
-	*/
 };
