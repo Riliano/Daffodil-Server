@@ -15,14 +15,14 @@ double Module::TimeToCall()
 }
 Module::~Module(){}
 
-void ExternalModule::Load( const char *filename )
+bool ExternalModule::Load( const char *filename )
 {
 	externalClass = dlopen( filename, RTLD_NOW );
 	const char *dlsym_error = dlerror();
 	if( dlsym_error )
 	{
 		std::cerr << "Cannot load module " << filename << " : " << dlsym_error << "/n";
-		return;
+		return false;
 	}
 
 	constructor = (Import*) dlsym( externalClass, "import" );
@@ -30,9 +30,11 @@ void ExternalModule::Load( const char *filename )
 	if( dlsym_error )
 	{
 		std::cerr << "Cannot find constructor in " << filename << " : " << dlsym_error << "/n";
-		return;
+		dlclose( externalClass );
+		return false;
 	}
 	module = constructor();
+	return true;
 }
 void ExternalModule::Unload()
 {
@@ -55,8 +57,11 @@ void ModuleManager::Execute( size_t m )
 void ModuleManager::AddExternal( const char *filename )
 {
 	ExternalModule *newModule = new ExternalModule;
-	newModule->Load( filename );
-	modules.push_back( newModule );
+	bool success = newModule->Load( filename );
+	if( success )
+		modules.push_back( newModule );
+	else
+		delete newModule;
 }
 void ModuleManager::Remove( size_t m )
 {

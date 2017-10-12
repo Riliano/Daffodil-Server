@@ -30,7 +30,7 @@ class ExternalModule
 	Import* constructor;
 	void* externalClass;
 
-	void Load( const char * );
+	bool Load( const char * );
 	void Unload();
 };
 

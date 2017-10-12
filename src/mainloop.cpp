@@ -16,12 +16,18 @@ void DaffodilServer::MainLoop()
 			if( modules.TimeToCall(i) <= 0 )
 				modules.Execute(i);
 
-		double downtime = modules.TimeToCall(0);
-		for( unsigned int i=1;i<modules.Size();i++ )
-			downtime = std::min( downtime, modules.TimeToCall(i) );
+		if( modules.Size() > 0 )
+		{
+			double downtime = modules.TimeToCall(0);
+			for( unsigned int i=1;i<modules.Size();i++ )
+				downtime = std::min( downtime, modules.TimeToCall(i) );
 
-		// convert from seconds to miliseconds
-		SDL_Delay( downtime*1000 );
+			// convert from seconds to miliseconds
+			SDL_Delay( downtime*1000 );
+		}else
+		{
+			SDL_Delay( 200 );
+		}
 	}
 }
 
