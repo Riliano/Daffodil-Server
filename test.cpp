@@ -4,6 +4,7 @@
 
 class Info3 : public Module
 {
+	int memory[2000];
 	public:
 	virtual void Func()
 	{
@@ -18,4 +19,9 @@ class Info3 : public Module
 extern "C" Module* import()
 {
 	return new Info3;
+}
+
+extern "C" void destroy( Module *m )
+{
+	delete m;
 }

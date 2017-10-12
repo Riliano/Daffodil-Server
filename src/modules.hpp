@@ -21,13 +21,15 @@ class Module
 	virtual ~Module();
 };
 
-typedef Module* Import();
+typedef Module *Import();
+typedef Module *Destroy( Module * );
 
 class ExternalModule
 {
 	public:
 	Module* module;
-	Import* constructor;
+	Import* Constructor;
+	Destroy* Destructor;
 	void* externalClass;
 
 	bool Load( const char * );

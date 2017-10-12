@@ -25,7 +25,7 @@ bool ExternalModule::Load( const char *filename )
 		return false;
 	}
 
-	constructor = (Import*) dlsym( externalClass, "import" );
+	Constructor = (Import*) dlsym( externalClass, "import" );
 	dlsym_error = dlerror();
 	if( dlsym_error )
 	{
@@ -33,12 +33,22 @@ bool ExternalModule::Load( const char *filename )
 		dlclose( externalClass );
 		return false;
 	}
-	module = constructor();
+
+	Destructor = (Destroy*) dlsym( externalClass, "destroy" );
+	dlsym_error = dlerror();
+	if( dlsym_error )
+	{
+		std::cerr << "Cannot find destructor in " << filename << " : " << dlsym_error << "/n";
+		dlclose( externalClass );
+		return false;
+	}
+
+	module = Constructor();
 	return true;
 }
 void ExternalModule::Unload()
 {
-	delete module;
+	Destructor( module );
 	dlclose( externalClass );
 }
 
