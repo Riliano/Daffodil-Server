@@ -52,11 +52,15 @@ class ModuleManager
 	{
 		if( modules.size() > 0 )
 		{
+			while( !modules.empty() )
+				Remove( 0 );
+			/*
 			for( size_t i=0;i<modules.size();i++ )
 			{
 				modules[i]->Unload();
 			}
 			modules.clear();
+			*/
 		}
 	}
 };

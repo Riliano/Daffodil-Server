@@ -76,6 +76,7 @@ void ModuleManager::AddExternal( const char *filename )
 void ModuleManager::Remove( size_t m )
 {
 	modules[m]->Unload();
+	delete modules[m];
 	for( size_t i=m;i<modules.size()-1;i++ )
 		modules[i] = modules[i+1];
 	modules.pop_back();

@@ -12,7 +12,6 @@ int main()
 	server.SetServerSize( 64 );
 
 	std::thread t1( &DaffodilServer::Start, &server );
-
 	while( true )
 	{
 		char ch = getchar();
@@ -22,7 +21,6 @@ int main()
 			break;
 		}
 	}
-	
 	/*
 	SDL_Delay( 10000 );
 	server.SetPort( 3332 );
@@ -33,4 +31,4 @@ int main()
 	server.Quit();
 */
 	t1.join();
-}	
+}
