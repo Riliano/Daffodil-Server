@@ -13,7 +13,7 @@ class Module
 	std::chrono::steady_clock::time_point lastCall = std::chrono::steady_clock::now();
 	protected:
 	public:
-	double interval = -1;
+	double interval;
 	double TimeToCall();
 	virtual void Func() = 0;
 	void Action();
@@ -48,19 +48,5 @@ class ModuleManager
 	void Remove( size_t );
 	void Execute( size_t );
 
-	~ModuleManager()
-	{
-		if( modules.size() > 0 )
-		{
-			while( !modules.empty() )
-				Remove( 0 );
-			/*
-			for( size_t i=0;i<modules.size();i++ )
-			{
-				modules[i]->Unload();
-			}
-			modules.clear();
-			*/
-		}
-	}
+	~ModuleManager();
 };

@@ -85,3 +85,9 @@ void ModuleManager::AddLocal( Module *module )
 {
 //	modules.push_back( module );
 }
+ModuleManager::~ModuleManager()
+{
+	if( modules.size() > 0 )
+		while( !modules.empty() )
+			Remove( 0 );
+}
