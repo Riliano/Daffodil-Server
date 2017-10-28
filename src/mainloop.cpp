@@ -4,6 +4,7 @@
 
 #include "server.hpp"
 #include "modules.hpp"
+#include "modulemanager.hpp"
 
 void DaffodilServer::MainLoop()
 {
