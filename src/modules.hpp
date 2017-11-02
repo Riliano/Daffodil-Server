@@ -5,6 +5,8 @@
 #include <vector>
 #include <dlfcn.h>
 
+#include "database.hpp"
+
 class Module
 {
 	private:
@@ -13,8 +15,8 @@ class Module
 	public:
 	double interval;
 	double TimeToCall();
-	virtual void Func() = 0;
-	void Action();
+	virtual void Func( Database & ) = 0;
+	void Action( Database & );
 
 	virtual ~Module();
 };

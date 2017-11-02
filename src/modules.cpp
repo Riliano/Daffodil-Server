@@ -1,8 +1,8 @@
 #include "modules.hpp"
 
-void Module::Action()
+void Module::Action( Database &db )
 {
-	Func();
+	Func( db );
 	lastCall = std::chrono::steady_clock::now();
 }
 double Module::TimeToCall()

@@ -1,6 +1,10 @@
 #pragma once
 
 #include <SDL2/SDL_net.h>
+#include <vector>
+
+#include "database.hpp"
+#include "modulemanager.hpp"
 
 class DaffodilServer
 {
@@ -14,6 +18,9 @@ class DaffodilServer
 	TCPsocket socket_;
 	SDLNet_SocketSet allSockets_;
 	void StartServer();
+
+	Database db;
+	ModuleManager modules;
 
 	void MainLoop();
 

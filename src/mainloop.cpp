@@ -4,18 +4,14 @@
 
 #include "server.hpp"
 #include "modules.hpp"
-#include "modulemanager.hpp"
 
 void DaffodilServer::MainLoop()
 {
-	ModuleManager modules;
-	modules.AddExternal( "./test.so" );
-
 	while( serverIsRunning_ )
 	{
 		for( unsigned int i=0;i<modules.Size();i++ )
 			if( modules.TimeToCall(i) <= 0 )
-				modules.Execute(i);
+				modules.Execute(i, db);
 
 		if( modules.Size() > 0 )
 		{

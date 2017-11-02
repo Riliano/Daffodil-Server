@@ -45,9 +45,9 @@ double ModuleManager::TimeToCall( size_t m )
 {
 	return modules[m]->module->TimeToCall();
 }
-void ModuleManager::Execute( size_t m )
+void ModuleManager::Execute( size_t m, Database &db )
 {
-	modules[m]->module->Action();
+	modules[m]->module->Action( db );
 }
 void ModuleManager::AddExternal( const char *filename )
 {
