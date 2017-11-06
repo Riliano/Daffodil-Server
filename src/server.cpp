@@ -11,7 +11,7 @@ void DaffodilServer::MainLoop()
 	{
 		for( unsigned int i=0;i<modules.Size();i++ )
 			if( modules.TimeToCall(i) <= 0 )
-				modules.Execute(i, db);
+				modules.Execute(i, &db);
 
 		if( modules.Size() > 0 )
 		{
@@ -28,6 +28,10 @@ void DaffodilServer::MainLoop()
 	}
 }
 
+void DaffodilServer::LoadModule( const char *name )
+{
+	modules.AddExternal( name );
+}
 void DaffodilServer::Start()
 {
 	StartServer();

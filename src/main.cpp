@@ -1,6 +1,7 @@
 #include <thread>
 #include <iostream>
 #include <curses.h>
+#include <string>
 
 #include "server.hpp"
 
@@ -19,6 +20,12 @@ int main()
 		{
 			server.Quit();
 			break;
+		}
+		if( ch == 'l' )
+		{
+			std::string name;
+			std::cin>>name;
+			server.LoadModule( name.data() );
 		}
 	}
 	/*

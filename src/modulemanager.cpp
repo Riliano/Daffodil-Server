@@ -45,7 +45,7 @@ double ModuleManager::TimeToCall( size_t m )
 {
 	return modules[m]->module->TimeToCall();
 }
-void ModuleManager::Execute( size_t m, Database &db )
+void ModuleManager::Execute( size_t m, Database *db )
 {
 	modules[m]->module->Action( db );
 }

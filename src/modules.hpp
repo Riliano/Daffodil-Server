@@ -15,8 +15,8 @@ class Module
 	public:
 	double interval;
 	double TimeToCall();
-	virtual void Func( Database & ) = 0;
-	void Action( Database & );
+	virtual void Func( Database * ) = 0;
+	void Action( Database * );
 
 	virtual ~Module();
 };
