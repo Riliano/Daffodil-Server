@@ -32,8 +32,8 @@ void DaffodilServer::StartServer()
 	SDLNet_Init();
 	std::cout<<"Starting server on port: "<<port_<<" with size: "<<serverSize_<<"\n";
 	SDLNet_ResolveHost( &ip, NULL, port_ );
-	allSockets_ = SDLNet_AllocSocketSet( serverSize_ );
+	db.allSockets = SDLNet_AllocSocketSet( serverSize_ );
 	socket_ = SDLNet_TCP_Open( &ip );
-	SDLNet_TCP_AddSocket( allSockets_, socket_ );
+	SDLNet_TCP_AddSocket( db.allSockets, socket_ );
 	serverIsRunning_ = true;
 }

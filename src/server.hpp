@@ -16,7 +16,6 @@ class DaffodilServer
 
 	bool serverIsRunning_ = false;
 	TCPsocket socket_;
-	SDLNet_SocketSet allSockets_;
 	void StartServer();
 
 	Database db;
@@ -34,9 +33,7 @@ class DaffodilServer
 
 	~DaffodilServer()
 	{
-		SDLNet_FreeSocketSet( allSockets_ );
 		SDLNet_TCP_Close( socket_ );
 		SDLNet_Quit();
-
 	}
 };
