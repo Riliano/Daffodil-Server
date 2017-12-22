@@ -37,42 +37,52 @@ void ExternalModule::Unload()
 	dlclose( externalClass );
 }
 
-size_t ModuleManager::Size()
+void ModuleManager::Add( const char *name )
 {
-	return modules.size();
+	moduleMap[name].Load( name );
+	if( moduleMap[name].module->interval != -1 )
+		timedModules.push_back( &moduleMap[name] );
 }
-double ModuleManager::TimeToCall( size_t m )
+void ModuleManager::Remove( const char *name )
 {
-	return modules[m]->module->TimeToCall();
+	ExternalModule *m = &moduleMap[name];
+
+	if( m->module->interval != -1 )
+	{
+		for( size_t i=0;i<timedModules.size();i++ )
+		{
+			if( timedModules[i] == m )
+			{
+				timedModules.erase( timedModules.begin()+i );
+				break;
+			}
+		}
+	}
+
+	m->Unload();
 }
-void ModuleManager::Execute( size_t m, Database *db )
+void ModuleManager::Execute( Database *db, const char *name )
 {
-	modules[m]->module->Action( db );
+	moduleMap[name].module->Action( db );
 }
-void ModuleManager::AddExternal( const char *filename )
+void ModuleManager::ExecuteTimed( Database *db )
 {
-	ExternalModule *newModule = new ExternalModule;
-	bool success = newModule->Load( filename );
-	if( success )
-		modules.push_back( newModule );
-	else
-		delete newModule;
+	for( size_t i=0;i<timedModules.size();i++ )
+		if( timedModules[i]->module->TimeToCall() <= 0 )
+			timedModules[i]->module->Action( db );
 }
-void ModuleManager::Remove( size_t m )
+double ModuleManager::GetDowntime()
 {
-	modules[m]->Unload();
-	delete modules[m];
-	for( size_t i=m;i<modules.size()-1;i++ )
-		modules[i] = modules[i+1];
-	modules.pop_back();
-}
-void ModuleManager::AddLocal( Module *module )
-{
-//	modules.push_back( module );
+	if( timedModules.empty() )
+		return DEFAULT_DOWN_TIME;
+	double downtime = 0;
+	for( size_t i=0;i<timedModules.size();i++ )
+		downtime = std::min( downtime, timedModules[i]->module->TimeToCall() );
+	return downtime;
 }
 ModuleManager::~ModuleManager()
 {
-	if( modules.size() > 0 )
-		while( !modules.empty() )
-			Remove( 0 );
+	for( auto it=moduleMap.begin();it!=moduleMap.end();it++ )
+		it->second.Unload();
+	timedModules.clear();
 }

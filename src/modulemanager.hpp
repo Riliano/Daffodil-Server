@@ -2,8 +2,10 @@
 
 #include <chrono>
 #include <iostream>
+#include <string>
 #include <vector>
 #include <dlfcn.h>
+#include <map>
 
 #include "modules.hpp"
 #include "database.hpp"
@@ -11,10 +13,14 @@
 class ExternalModule
 {
 	public:
+	std::string name;
+
 	Module* module;
 	Import* Constructor;
 	Destroy* Destructor;
 	void* externalClass;
+
+	ExternalModule *next;
 
 	bool Load( const char * );
 	void Unload();
@@ -23,14 +29,16 @@ class ExternalModule
 class ModuleManager
 {
 	private:
-	std::vector< ExternalModule* > modules;
+	std::map< std::string, ExternalModule > moduleMap;
+	std::vector< ExternalModule* > timedModules;
+	double downTime;
+	const double DEFAULT_DOWN_TIME = 0.2;
 	public:
-	void AddExternal( const char * );
-	void AddLocal( Module* );
-	size_t Size();
-	double TimeToCall( size_t );
-	void Remove( size_t );
-	void Execute( size_t, Database * );
+	void Add( const char * );
+	void Remove( const char * );
+	void Execute( Database *, const char * );
+	void ExecuteTimed( Database * );
+	double GetDowntime();
 
 	~ModuleManager();
 };

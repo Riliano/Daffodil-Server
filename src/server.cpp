@@ -9,28 +9,16 @@ void DaffodilServer::MainLoop()
 {
 	while( serverIsRunning_ )
 	{
-		for( unsigned int i=0;i<modules.Size();i++ )
-			if( modules.TimeToCall(i) <= 0 )
-				modules.Execute(i, &db);
-
-		if( modules.Size() > 0 )
-		{
-			double downtime = modules.TimeToCall(0);
-			for( unsigned int i=1;i<modules.Size();i++ )
-				downtime = std::min( downtime, modules.TimeToCall(i) );
-
-			// convert from seconds to miliseconds
-			SDL_Delay( downtime*1000 );
-		}else
-		{
-			SDL_Delay( 200 );
-		}
+		modules.ExecuteTimed( &db );
+		double downtime = modules.GetDowntime();
+		// convert from seconds to miliseconds
+		SDL_Delay( downtime*1000 );
 	}
 }
 
 void DaffodilServer::LoadModule( const char *name )
 {
-	modules.AddExternal( name );
+	modules.Add( name );
 }
 void DaffodilServer::Start()
 {
