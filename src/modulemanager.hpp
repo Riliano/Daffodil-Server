@@ -31,8 +31,8 @@ class ModuleManager
 	private:
 	std::map< std::string, ExternalModule > moduleMap;
 	std::vector< ExternalModule* > timedModules;
-	double downTime;
 	const double DEFAULT_DOWN_TIME = 0.2;
+	double downTime;
 	public:
 	void Add( const char * );
 	void Remove( const char * );
