@@ -5,7 +5,7 @@
 #include <vector>
 #include <dlfcn.h>
 
-#include "database.hpp"
+#include "state.hpp"
 
 class Module
 {
@@ -15,8 +15,8 @@ class Module
 	public:
 	double interval = -1;
 	double TimeToCall();
-	virtual void Func( Database * ) = 0;
-	void Action( Database * );
+	virtual void Func( State * ) = 0;
+	void Action( State * );
 
 	virtual ~Module();
 };

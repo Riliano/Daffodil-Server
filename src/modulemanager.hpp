@@ -8,7 +8,7 @@
 #include <map>
 
 #include "modules.hpp"
-#include "database.hpp"
+#include "state.hpp"
 
 class ExternalModule
 {
@@ -36,8 +36,8 @@ class ModuleManager
 	public:
 	void Add( const char * );
 	void Remove( const char * );
-	void Execute( Database *, const char * );
-	void ExecuteTimed( Database * );
+	void Execute( State *, const char * );
+	void ExecuteTimed( State * );
 	double GetDowntime();
 
 	~ModuleManager();

@@ -9,7 +9,7 @@ void DaffodilServer::MainLoop()
 {
 	while( serverIsRunning_ )
 	{
-		modules.ExecuteTimed( &db );
+		modules.ExecuteTimed( &st );
 		double downtime = modules.GetDowntime();
 		// convert from seconds to miliseconds
 		SDL_Delay( downtime*1000 );

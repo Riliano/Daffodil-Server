@@ -61,15 +61,15 @@ void ModuleManager::Remove( const char *name )
 
 	m->Unload();
 }
-void ModuleManager::Execute( Database *db, const char *name )
+void ModuleManager::Execute( State *st, const char *name )
 {
-	moduleMap[name].module->Action( db );
+	moduleMap[name].module->Action( st );
 }
-void ModuleManager::ExecuteTimed( Database *db )
+void ModuleManager::ExecuteTimed( State *st )
 {
 	for( size_t i=0;i<timedModules.size();i++ )
 		if( timedModules[i]->module->TimeToCall() <= 0 )
-			timedModules[i]->module->Action( db );
+			timedModules[i]->module->Action( st );
 }
 double ModuleManager::GetDowntime()
 {

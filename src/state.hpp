@@ -5,12 +5,12 @@
 
 #include "user.hpp"
 
-struct Database
+struct State
 {
-	SDLNet_SocketSet allSockets;
+    SDLNet_SocketSet allSockets;
     std::vector< User > users;
-	~Database()
-	{
-		SDLNet_FreeSocketSet( allSockets );
-	}
+    ~State()
+    {
+	    SDLNet_FreeSocketSet( allSockets );
+    }
 };

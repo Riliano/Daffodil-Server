@@ -3,7 +3,7 @@
 #include <SDL2/SDL_net.h>
 #include <vector>
 
-#include "database.hpp"
+#include "state.hpp"
 #include "modulemanager.hpp"
 
 class DaffodilServer
@@ -18,7 +18,7 @@ class DaffodilServer
 	TCPsocket socket_;
 	void StartServer();
 
-	Database db;
+	State st;
 	ModuleManager modules;
 
 	void MainLoop();
