@@ -15,8 +15,4 @@ class User
         socket = mySocket;
         status = -1;
     }
-    ~User()
-    {
-        SDLNet_TCP_Close( socket );
-    }
 };

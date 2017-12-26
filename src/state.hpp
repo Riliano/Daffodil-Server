@@ -8,6 +8,7 @@
 struct State
 {
     SDLNet_SocketSet allSockets;
+    TCPsocket serverSocket;
     std::vector< User > users;
     ~State()
     {
