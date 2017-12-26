@@ -20,6 +20,10 @@ void DaffodilServer::LoadModule( const char *name )
 {
 	modules.Add( name );
 }
+void DaffodilServer::RemoveModule( const char *name )
+{
+    modules.Remove( name );
+}
 void DaffodilServer::Start()
 {
 	StartServer();

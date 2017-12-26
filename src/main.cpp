@@ -26,6 +26,12 @@ int main()
 			std::cin>>name;
 			server.LoadModule( name.data() );
 		}
+		if( ch == 'r' )
+		{
+		    std::string name;
+		    std::cin>>name;
+		    server.RemoveModule( name.data() );
+		}
 	}
 	/*
 	SDL_Delay( 10000 );

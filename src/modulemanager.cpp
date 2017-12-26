@@ -45,21 +45,22 @@ void ModuleManager::Add( const char *name )
 }
 void ModuleManager::Remove( const char *name )
 {
-	ExternalModule *m = &moduleMap[name];
-
-	if( m->module->interval != -1 )
+    moduleMap[name];
+    if( moduleMap[name].module->interval != -1 )
+    {
+	for( size_t i=0;i<timedModules.size();i++ )
 	{
-		for( size_t i=0;i<timedModules.size();i++ )
-		{
-			if( timedModules[i] == m )
-			{
-				timedModules.erase( timedModules.begin()+i );
-				break;
-			}
-		}
+	    if( timedModules[i] == &moduleMap[name] )
+	    {
+		timedModules[i] = nullptr;
+		timedModules.erase( timedModules.begin()+i );
+		break;
+	    }
 	}
+    }
 
-	m->Unload();
+    moduleMap[name].Unload();
+    moduleMap.erase( name );
 }
 void ModuleManager::Execute( State *st, const char *name )
 {

@@ -25,6 +25,7 @@ class DaffodilServer
 
 	public:
 	void LoadModule( const char * );
+	void RemoveModule( const char * );
 
 	void SetPort( const unsigned int & );
 	void SetServerSize( const unsigned int & );
