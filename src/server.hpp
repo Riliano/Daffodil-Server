@@ -33,11 +33,6 @@ class DaffodilServer
 
 	~DaffodilServer()
 	{
-		SDLNet_TCP_Close( st.serverSocket );
-		for( size_t i=0;i<st.users.size();i++ )
-		    SDLNet_TCP_Close( st.users[i].socket );
-		st.users.clear();
-
 		SDLNet_Quit();
 	}
 };

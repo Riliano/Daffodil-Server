@@ -12,6 +12,10 @@ struct State
     std::vector< User > users;
     ~State()
     {
-	    SDLNet_FreeSocketSet( allSockets );
+	SDLNet_TCP_Close( serverSocket );
+	for( size_t i=0;i<users.size();i++ )
+	    SDLNet_TCP_Close( users[i].socket );
+	users.clear();
+	SDLNet_FreeSocketSet( allSockets );
     }
 };
